@@ -1,0 +1,17 @@
+{
+  "name": "ghostprotocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stealth-optimized browser automation framework with safety and compliance controls.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --enable-source-maps dist/index.js"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
