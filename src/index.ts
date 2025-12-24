@@ -1,10 +1,21 @@
-export { GhostSession } from "./core/ghostSession.js";
-export { ProxyPool } from "./core/proxyPool.js";
-export { defaultBehavior, randomDelay } from "./core/behavior.js";
-export { pickFingerprintProfile, fingerprintProfiles } from "./core/fingerprintProfile.js";
-export { defaultPolicy, isUrlAllowed } from "./core/sessionPolicy.js";
-export type { GhostSessionOptions } from "./core/ghostSession.js";
-export type { ProxyConfig } from "./core/proxyPool.js";
-export type { BehaviorOptions } from "./core/behavior.js";
-export type { FingerprintProfile } from "./core/fingerprintProfile.js";
-export type { SessionPolicy } from "./core/sessionPolicy.js";
+import { chromium } from "playwright";
+
+const targetUrl = process.env.GHOST_TARGET_URL ?? "https://example.com";
+
+const run = async () => {
+  const browser = await chromium.launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  const title = await page.title();
+
+  console.log(`Visited ${targetUrl}`);
+  console.log(`Title: ${title}`);
+
+  await browser.close();
+};
+
+run().catch((error) => {
+  console.error("GhostProtocol demo failed:", error);
+  process.exitCode = 1;
+});

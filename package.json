@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Stealth-optimized browser automation framework with safety and compliance controls.",
+  "description": "Fresh GhostProtocol starter with a runnable Playwright demo.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prestart": "npm run build",
-    "start": "node --enable-source-maps dist/demo/runDemo.js"
+    "start": "node --enable-source-maps dist/index.js"
   },
   "dependencies": {
     "playwright": "^1.47.0"
