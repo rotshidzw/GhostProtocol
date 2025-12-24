@@ -6,6 +6,7 @@
   "description": "Stealth-optimized browser automation framework with safety and compliance controls.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prestart": "npm run build",
     "start": "node --enable-source-maps dist/demo/runDemo.js"
   },
   "dependencies": {

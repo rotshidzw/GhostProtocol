@@ -50,7 +50,6 @@ await session.close();
 ## Run the demo
 ```bash
 npm install
-npm run build
 npm start
 ```
 
