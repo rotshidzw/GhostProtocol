@@ -1,5 +1,5 @@
 import { chromium, type BrowserContextOptions, type Browser, type BrowserContext, type Page } from "playwright";
-import { defaultBehavior, randomDelay } from "./behavior.js";
+import { defaultBehavior, randomDelay, type BehaviorOptions } from "./behavior.js";
 import { pickFingerprintProfile, type FingerprintProfile } from "./fingerprintProfile.js";
 import { defaultPolicy, isUrlAllowed, type SessionPolicy } from "./sessionPolicy.js";
 import type { ProxyConfig } from "./proxyPool.js";
@@ -8,7 +8,7 @@ export type GhostSessionOptions = {
   fingerprintProfile?: FingerprintProfile;
   proxy?: ProxyConfig;
   policy?: SessionPolicy;
-  behavior?: typeof defaultBehavior;
+  behavior?: BehaviorOptions;
 };
 
 export class GhostSession {
@@ -48,13 +48,13 @@ export class GhostSession {
       Object.defineProperty(navigator, "platform", { get: () => platform });
     }, fingerprint.platform);
 
-    this.context.on("page", (page) => {
-      page.on("request", async (request) => {
-        if (!isUrlAllowed(request.url(), policy)) {
-          await request.abort();
-          return;
-        }
-      });
+    await this.context.route("**/*", async (route) => {
+      if (!isUrlAllowed(route.request().url(), policy)) {
+        await route.abort();
+        return;
+      }
+
+      await route.continue();
     });
 
     return this.context;
